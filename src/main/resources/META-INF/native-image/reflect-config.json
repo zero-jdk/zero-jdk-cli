@@ -1,0 +1,24 @@
+[
+  {
+    "name": "dev.zerojdk.adapter.out.catalog.model.JsonJdkVersion",
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "allPublicFields": true
+  },
+  {
+    "name": "java.lang.Runtime$Version",
+    "allPublicConstructors": true
+  },
+  {
+    "name": "dev.zerojdk.domain.model.catalog.client.Asset",
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "allPublicFields": true
+  },
+  {
+    "name": "dev.zerojdk.domain.model.catalog.client.Release",
+    "allPublicConstructors": true,
+    "allPublicMethods": true,
+    "allPublicFields": true
+  }
+]

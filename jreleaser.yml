@@ -1,0 +1,45 @@
+matrix:
+  rows:
+    - { os: linux, arch: x64, platform: linux-x86_64 }
+    - { os: linux, arch: arm64, platform: linux-aarch_64 }
+    - { os: macos, arch: x64, platform: osx-x86_64 }
+    - { os: macos, arch: arm64, platform: osx-aarch_64 }
+
+project:
+  name: zjdk
+  version: 0.1.0
+  description: Native CLI build
+  authors:
+    - Julien May
+  license: Apache-2.0
+  inceptionYear: 2025
+  links:
+    homepage: https://githu.com/zero-jdk/zero-jdk-cli
+
+# Probably makes sense to move assemble to maven
+assemble:
+  archive:
+    zjdk:
+      active: ALWAYS
+      formats: [ TAR_GZ ]
+      applyDefaultMatrix: true
+      archiveName: '{{distributionName}}-{{projectVersion}}-{{matrix.os}}-{{matrix.arch}}'
+
+      fileSets:
+        - input: target
+          includes: [ zjdk ]
+          output: .
+
+distributions:
+  preBuiltPackages:
+    type: BINARY
+    executable:
+      name: '{{projectVersion}}'
+    extraProperties:
+      individualChecksum: true
+
+release:
+  github:
+    enabled: true
+    changelog:
+      formatted: ALWAYS

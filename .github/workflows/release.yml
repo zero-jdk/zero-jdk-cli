@@ -1,0 +1,82 @@
+name: release.yml
+on: [push]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.platform }}-${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux
+            arch: x64
+            runner: ubuntu-latest
+          - platform: linux
+            arch: arm64
+            runner: ubuntu-24.04-arm
+          - platform: macos
+            arch: x64
+            runner: macos-13
+          - platform: macos
+            arch: arm64
+            runner: macos-latest
+
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up GraalVM
+        id: graalvm
+        uses: graalvm/setup-graalvm@v1
+        with:
+          distribution: 'graalvm-community'
+          java-version: '24.0.1'
+
+      - name: Build native image
+        run: ./mvnw -B clean package -Pnative
+
+      - name: JReleaser assemble
+        uses: jreleaser/release-action@v2
+        with:
+          arguments: 'assemble --basedir=. --select-current-platform'
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zjdk-${{ matrix.platform }}-${{ matrix.arch }}
+          path: out/jreleaser/assemble/**
+          retention-days: 7
+
+  release:
+    name: Create release
+    needs: build
+
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: out/jreleaser/assemble
+          merge-multiple: true
+
+      - name: Debug
+        run: |
+          tree out/jreleaser
+
+      - name: Run JReleaser
+        uses: jreleaser/release-action@v2
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          arguments: 'release --basedir=.'
