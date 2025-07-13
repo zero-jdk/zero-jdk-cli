@@ -2,7 +2,7 @@
 
 set -e
 
-PROJECT="julien-may/zero-jdk"
+PROJECT="zero-jdk/zero-jdk-cli"
 BINARY="zjdk"
 LATEST_RELEASE_API="https://api.github.com/repos/$PROJECT/releases/latest"
 RELEASES_URL="https://github.com/$PROJECT/releases"
