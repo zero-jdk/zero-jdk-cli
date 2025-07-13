@@ -6,7 +6,7 @@
     <groupId>dev.zero-jdk</groupId>
     <artifactId>zero-jdk-cli</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
 
     <name>zjdk</name>
 
@@ -28,6 +28,7 @@
         <native.maven.plugin.version>0.10.6</native.maven.plugin.version>
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+        <zero-jdk-core.version>0.1.1</zero-jdk-core.version>
     </properties>
 
     <repositories>
@@ -79,7 +80,7 @@
         <dependency>
             <groupId>dev.zero-jdk</groupId>
             <artifactId>zero-jdk-core</artifactId>
-            <version>0.1.0</version>
+            <version>${zero-jdk-core.version}</version>
         </dependency>
 
         <dependency>
